@@ -1,5 +1,6 @@
 package tads.ufpr.br.oscarapp;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -51,6 +52,14 @@ public class MainActivity extends AppCompatActivity {
         protected User doInBackground(Map<String, String>... maps) {
             Log.d(TAG, maps[0].keySet().toString());
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(User user) {
+            super.onPostExecute(user);
+
+            Intent intent = new Intent(getBaseContext(), ShortcutsActivity.class);
+            startActivity(intent);
         }
     }
 }
