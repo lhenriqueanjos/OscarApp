@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/item1"
-        android:title="Item 1" />
+        android:id="@+id/listMoviesItem"
+        android:title="Ver filmes" />
+    <item
+        android:id="@+id/listDirectorsItem"
+        android:title="Ver diretores" />
+    <item
+        android:id="@+id/confirmItem"
+        android:title="Confirmaar voto" />
+    <item
+        android:id="@+id/exiItem"
+        android:title="Sair" />
 </menu>
