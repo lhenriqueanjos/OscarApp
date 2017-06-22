@@ -25,6 +25,7 @@ public class ShortcutsActivity extends AppCompatActivity {
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
         String moviesUrl = "https://dl.dropboxusercontent.com/u/40990541/filme.json";
+        String directorsUrl = "https://dl.dropboxusercontent.com/u/40990541/diretor.json";
 
         // Request a string response from the provided URL.
         StringRequest moviesRequest = new StringRequest(Request.Method.GET, moviesUrl,
@@ -34,14 +35,28 @@ public class ShortcutsActivity extends AppCompatActivity {
                 Log.d(TAG, response.toString());
             }
         }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "erro na request de filmes");
+            }
+        });
+
+        StringRequest directorsRequest = new StringRequest(Request.Method.GET, directorsUrl,
+            new Response.Listener<String>() {
                 @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.e(TAG, "erro na request de filmes");
+                public void onResponse(String response) {
+                    Log.d(TAG, response.toString());
                 }
-            });
+            }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "erro na request de diretores");
+            }
+        });
 
         // Add the request to the RequestQueue.
-        queue.add(moviesRequest );
+        queue.add(moviesRequest);
+        queue.add(directorsRequest);
     }
 
     @Override
