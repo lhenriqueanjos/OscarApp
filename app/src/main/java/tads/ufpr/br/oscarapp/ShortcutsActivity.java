@@ -6,6 +6,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
 public class ShortcutsActivity extends AppCompatActivity {
 
     private static final String TAG = "SHORTCUTS_ACTIVITY";
@@ -14,6 +21,27 @@ public class ShortcutsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shortcuts);
+
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String moviesUrl = "https://dl.dropboxusercontent.com/u/40990541/filme.json";
+
+        // Request a string response from the provided URL.
+        StringRequest moviesRequest = new StringRequest(Request.Method.GET, moviesUrl,
+                new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, response.toString());
+            }
+        }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e(TAG, "erro na request de filmes");
+                }
+            });
+
+        // Add the request to the RequestQueue.
+        queue.add(moviesRequest );
     }
 
     @Override
