@@ -5,6 +5,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -16,6 +20,9 @@ import com.android.volley.toolbox.Volley;
 public class ShortcutsActivity extends AppCompatActivity {
 
     private static final String TAG = "SHORTCUTS_ACTIVITY";
+
+    ProgressBar progressBar;
+    LinearLayout content;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +64,17 @@ public class ShortcutsActivity extends AppCompatActivity {
         // Add the request to the RequestQueue.
         queue.add(moviesRequest);
         queue.add(directorsRequest);
+
+        progressBar = (ProgressBar) findViewById(R.id.shortcutsProgressBar);
+        content = (LinearLayout) findViewById(R.id.shortcutsContent);
+
+        queue.addRequestFinishedListener(new RequestQueue.RequestFinishedListener<String>() {
+            @Override
+            public void onRequestFinished(Request<String> request) {
+                progressBar.setVisibility(View.GONE);
+                content.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     @Override
