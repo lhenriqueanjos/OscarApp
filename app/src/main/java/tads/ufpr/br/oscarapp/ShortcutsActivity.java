@@ -25,6 +25,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import tads.ufpr.br.oscarapp.model.Director;
 import tads.ufpr.br.oscarapp.model.Movie;
 
 public class ShortcutsActivity extends AppCompatActivity {
@@ -34,6 +35,7 @@ public class ShortcutsActivity extends AppCompatActivity {
     ProgressBar progressBar;
     LinearLayout content;
     List<Movie> movies;
+    List<Director> directors;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +84,24 @@ public class ShortcutsActivity extends AppCompatActivity {
             new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    Log.d(TAG, response.toString());
+                    try {
+                        JSONObject responseJson = new JSONObject(response);
+                        JSONArray directorsJson = responseJson.getJSONArray("diretor");
+                        int i;
+
+                        directors = new ArrayList<>(directorsJson.length());
+
+                        for (i = 0; i < directorsJson.length(); i++) {
+                            JSONObject directorJson = (JSONObject) directorsJson.get(i);
+                            Director director = new Director();
+                            director.setName(directorJson.getString("nome"));
+                            director.setId(directorJson.getLong("id"));
+
+                            directors.add(director);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }, new Response.ErrorListener() {
             @Override
@@ -118,12 +137,14 @@ public class ShortcutsActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.listMoviesItem:
                 Log.d(TAG, "listar filmes");
-                Intent intent = new Intent(this, MoviesActivity.class);
-                intent.putExtra("movies", (Serializable) movies);
-                startActivity(intent);
+                Intent moviesIntent = new Intent(this, MoviesActivity.class);
+                moviesIntent.putExtra("movies", (Serializable) movies);
+                startActivity(moviesIntent);
                 return true;
             case R.id.listDirectorsItem:
-                Log.d(TAG, "listar diretores");
+                Intent directorsIntent = new Intent(this, DirectorsActivity.class);
+                directorsIntent.putExtra("directors", (Serializable) directors);
+                startActivity(directorsIntent);
                 return true;
             case R.id.confirmItem:
                 Log.d(TAG, "confirmar voto");
