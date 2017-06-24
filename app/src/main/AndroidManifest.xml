@@ -19,7 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ShortcutsActivity" />
-        <activity android:name=".MoviesActivity"></activity>
+        <activity android:name=".MoviesActivity" />
+        <activity android:name=".DirectorsActivity"></activity>
     </application>
 
 </manifest>
