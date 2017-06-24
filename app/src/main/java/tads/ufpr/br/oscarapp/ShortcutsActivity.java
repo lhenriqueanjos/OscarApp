@@ -1,5 +1,6 @@
 package tads.ufpr.br.oscarapp;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,12 +18,23 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import tads.ufpr.br.oscarapp.model.Movie;
+
 public class ShortcutsActivity extends AppCompatActivity {
 
     private static final String TAG = "SHORTCUTS_ACTIVITY";
 
     ProgressBar progressBar;
     LinearLayout content;
+    List<Movie> movies;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +43,7 @@ public class ShortcutsActivity extends AppCompatActivity {
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String moviesUrl = "https://dl.dropboxusercontent.com/u/40990541/filme.json";
+        final String moviesUrl = "https://dl.dropboxusercontent.com/u/40990541/filme.json";
         String directorsUrl = "https://dl.dropboxusercontent.com/u/40990541/diretor.json";
 
         // Request a string response from the provided URL.
@@ -39,7 +51,26 @@ public class ShortcutsActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d(TAG, response.toString());
+                try {
+                    JSONObject responseJson = new JSONObject(response);
+                    JSONArray moviesJson = responseJson.getJSONArray("filme");
+                    int i;
+
+                    movies = new ArrayList<>(moviesJson.length());
+
+                    for (i = 0; i < moviesJson.length(); i++) {
+                        JSONObject movieJson = (JSONObject) moviesJson.get(i);
+                        Movie movie = new Movie();
+                        movie.setName(movieJson.getString("nome"));
+                        movie.setCategory(movieJson.getString("genero"));
+                        movie.setId(movieJson.getLong("id"));
+                        movie.setImageUrl(movieJson.getString("foto"));
+
+                        movies.add(movie);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -88,6 +119,9 @@ public class ShortcutsActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.listMoviesItem:
                 Log.d(TAG, "listar filmes");
+                Intent intent = new Intent(this, Movies1Activity.class);
+                intent.putExtra("movies", (Serializable) movies);
+                startActivity(intent);
                 return true;
             case R.id.listDirectorsItem:
                 Log.d(TAG, "listar diretores");
