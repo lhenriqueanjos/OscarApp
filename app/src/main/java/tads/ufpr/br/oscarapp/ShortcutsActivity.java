@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -119,7 +118,7 @@ public class ShortcutsActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.listMoviesItem:
                 Log.d(TAG, "listar filmes");
-                Intent intent = new Intent(this, Movies1Activity.class);
+                Intent intent = new Intent(this, MoviesActivity.class);
                 intent.putExtra("movies", (Serializable) movies);
                 startActivity(intent);
                 return true;

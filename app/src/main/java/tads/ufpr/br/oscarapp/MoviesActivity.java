@@ -14,7 +14,7 @@ import tads.ufpr.br.oscarapp.model.Movie;
 
 import static android.widget.Toast.makeText;
 
-public class Movies1Activity extends AppCompatActivity {
+public class MoviesActivity extends AppCompatActivity {
 
     private ListView listView;
     private List<Movie> movies;
@@ -23,7 +23,7 @@ public class Movies1Activity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_movies1);
+        setContentView(R.layout.activity_movies);
 
         Intent intent = getIntent();
         movies = (List<Movie>) intent.getSerializableExtra("movies");

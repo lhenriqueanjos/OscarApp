@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="tads.ufpr.br.oscarapp.Movies1Activity">
+    tools:context="tads.ufpr.br.oscarapp.MoviesActivity">
 
     <ListView
         android:id="@+id/moviesListView"
