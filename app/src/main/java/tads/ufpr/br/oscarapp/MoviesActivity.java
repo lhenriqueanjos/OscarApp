@@ -36,7 +36,7 @@ public class MoviesActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //get selected items
                 Movie selectedValue = (Movie) listView.getAdapter().getItem(i);
-                Toast.makeText(getParent(), selectedValue.getName(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(), selectedValue.getName(), Toast.LENGTH_SHORT).show();
             }
         });
     }
