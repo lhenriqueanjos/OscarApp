@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -56,14 +57,26 @@ public class ShortcutsActivity extends AppCompatActivity {
 
         movie = (Movie) i.getSerializableExtra("movieConfirm");
         director = (Director) i.getSerializableExtra("directorConfirm");
-        if (user == null)
+
+        if (user == null) {
             user = (User) i.getSerializableExtra("userVote");
-        if (user == null)
+            Toast.makeText(this, "veio da confirmação", Toast.LENGTH_SHORT).show();
+        }
+
+        if (user == null) {
             user = (User) i.getSerializableExtra("movieVote");
-        if (user == null)
+            Toast.makeText(this, "veio da movie", Toast.LENGTH_SHORT).show();
+        }
+
+        if (user == null) {
             user = (User) i.getSerializableExtra("directorVote");
-        if (user == null)
+            Toast.makeText(this, "veio da director", Toast.LENGTH_SHORT).show();
+        }
+
+        if (user == null) {
             user = (User) i.getSerializableExtra("User");
+            Toast.makeText(this, "veio da login", Toast.LENGTH_SHORT).show();
+        }
 
         text = "Bem vindo(a)! ";
         text2 = "";
@@ -166,11 +179,12 @@ public class ShortcutsActivity extends AppCompatActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         menu.getItem(2).setEnabled(false);
-        if (user.getDirectorId() != null)
+        if (user.getDirectorId() != null && user.getDirectorId() != 0)
             menu.getItem(1).setEnabled(false);
-        if (user.getMovieId() != null)
+        if (user.getMovieId() != null && user.getMovieId() != 0)
             menu.getItem(0).setEnabled(false);
-        if (user.getDirectorId() != null && user.getMovieId() != null)
+        if (user.getDirectorId() != null && user.getDirectorId() != 0
+                && user.getMovieId() != null && user.getMovieId() != 0)
             menu.getItem(2).setEnabled(true);
 
         return true;
