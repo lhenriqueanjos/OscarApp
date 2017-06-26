@@ -179,10 +179,7 @@ public class ShortcutsActivity extends AppCompatActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         menu.getItem(2).setEnabled(false);
-        if (user.getDirectorId() != null && user.getDirectorId() != 0)
-            menu.getItem(1).setEnabled(false);
-        if (user.getMovieId() != null && user.getMovieId() != 0)
-            menu.getItem(0).setEnabled(false);
+
         if (user.getDirectorId() != null && user.getDirectorId() != 0
                 && user.getMovieId() != null && user.getMovieId() != 0)
             menu.getItem(2).setEnabled(true);
