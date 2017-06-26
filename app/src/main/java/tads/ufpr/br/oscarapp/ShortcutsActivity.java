@@ -54,97 +54,95 @@ public class ShortcutsActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(this);
         String directorsUrl = "https://dl.dropboxusercontent.com/u/40990541/diretor.json";
 
-            movie = (Movie)i.getSerializableExtra("movieConfirm");
-            director = (Director)i.getSerializableExtra("directorConfirm");
+        movie = (Movie) i.getSerializableExtra("movieConfirm");
+        director = (Director) i.getSerializableExtra("directorConfirm");
         if (user == null)
-            user  = (User)i.getSerializableExtra("userVote");
+            user = (User) i.getSerializableExtra("userVote");
         if (user == null)
-            user  = (User)i.getSerializableExtra("movieVote");
+            user = (User) i.getSerializableExtra("movieVote");
         if (user == null)
-            user  = (User)i.getSerializableExtra("directorVote");
+            user = (User) i.getSerializableExtra("directorVote");
         if (user == null)
-            user  = (User)i.getSerializableExtra("User");
+            user = (User) i.getSerializableExtra("User");
 
-            text = "Bem vindo(a)! ";
-            text2 = "";
-            if(user.getDirectorId() == null && user.getMovieId() == null)
-                text2 = "Você ainda não votou";
-            msgLogin = (TextView) findViewById(R.id.VoteTxt);
-            msgLogin.setText(text + user.getUserName() + System.getProperty("line.separator") + text2);
+        text = "Bem vindo(a)! ";
+        text2 = "";
+        if (user.getDirectorId() == null && user.getMovieId() == null)
+            text2 = "Você ainda não votou";
+        msgLogin = (TextView) findViewById(R.id.VoteTxt);
+        msgLogin.setText(text + user.getUserName() + System.getProperty("line.separator") + text2);
 
-            // Instantiate the RequestQueue.
+        // Instantiate the RequestQueue.
         final String moviesUrl = "https://dl.dropboxusercontent.com/u/40990541/filme.json";
 
-                // Request a string response from the provided URL.
-                StringRequest moviesRequest = new StringRequest(Request.Method.GET, moviesUrl,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                try {
-                                    JSONObject responseJson = new JSONObject(response);
-                                    JSONArray moviesJson = responseJson.getJSONArray("filme");
-                                    int i;
-
-                                    movies = new ArrayList<>(moviesJson.length());
-
-                                    for (i = 0; i < moviesJson.length(); i++) {
-                                        JSONObject movieJson = (JSONObject) moviesJson.get(i);
-                                        Movie movie = new Movie();
-                                        movie.setName(movieJson.getString("nome"));
-                                        movie.setCategory(movieJson.getString("genero"));
-                                        movie.setId(movieJson.getLong("id"));
-                                        movie.setImageUrl(movieJson.getString("foto"));
-
-                                        movies.add(movie);
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }, new Response.ErrorListener() {
+        // Request a string response from the provided URL.
+        StringRequest moviesRequest = new StringRequest(Request.Method.GET, moviesUrl,
+                new Response.Listener<String>() {
                     @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e(TAG, "erro na request de filmes");
-                    }
-                });
-                queue.add(moviesRequest);
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject responseJson = new JSONObject(response);
+                            JSONArray moviesJson = responseJson.getJSONArray("filme");
+                            int i;
 
+                            movies = new ArrayList<>(moviesJson.length());
 
+                            for (i = 0; i < moviesJson.length(); i++) {
+                                JSONObject movieJson = (JSONObject) moviesJson.get(i);
+                                Movie movie = new Movie();
+                                movie.setName(movieJson.getString("nome"));
+                                movie.setCategory(movieJson.getString("genero"));
+                                movie.setId(movieJson.getLong("id"));
+                                movie.setImageUrl(movieJson.getString("foto"));
 
-
-            StringRequest directorsRequest = new StringRequest(Request.Method.GET, directorsUrl,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            try {
-                                JSONObject responseJson = new JSONObject(response);
-                                JSONArray directorsJson = responseJson.getJSONArray("diretor");
-                                int i;
-
-                                directors = new ArrayList<>(directorsJson.length());
-
-                                for (i = 0; i < directorsJson.length(); i++) {
-                                    JSONObject directorJson = (JSONObject) directorsJson.get(i);
-                                    Director director = new Director();
-                                    director.setName(directorJson.getString("nome"));
-                                    director.setId(directorJson.getLong("id"));
-
-                                    directors.add(director);
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                                movies.add(movie);
                             }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.e(TAG, "erro na request de diretores");
-                }
-            });
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "erro na request de filmes");
+            }
+        });
+        queue.add(moviesRequest);
 
-            // Add the request to the RequestQueue.
 
-            queue.add(directorsRequest);
+        StringRequest directorsRequest = new StringRequest(Request.Method.GET, directorsUrl,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject responseJson = new JSONObject(response);
+                            JSONArray directorsJson = responseJson.getJSONArray("diretor");
+                            int i;
+
+                            directors = new ArrayList<>(directorsJson.length());
+
+                            for (i = 0; i < directorsJson.length(); i++) {
+                                JSONObject directorJson = (JSONObject) directorsJson.get(i);
+                                Director director = new Director();
+                                director.setName(directorJson.getString("nome"));
+                                director.setId(directorJson.getLong("id"));
+
+                                directors.add(director);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "erro na request de diretores");
+            }
+        });
+
+        // Add the request to the RequestQueue.
+
+        queue.add(directorsRequest);
 
 
         progressBar = (ProgressBar) findViewById(R.id.shortcutsProgressBar);
@@ -164,12 +162,13 @@ public class ShortcutsActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
+
     @Override
-    public boolean onPrepareOptionsMenu (Menu menu) {
+    public boolean onPrepareOptionsMenu(Menu menu) {
         menu.getItem(2).setEnabled(false);
-        if( user.getDirectorId() != null)
+        if (user.getDirectorId() != null)
             menu.getItem(1).setEnabled(false);
-        if( user.getMovieId() != null)
+        if (user.getMovieId() != null)
             menu.getItem(0).setEnabled(false);
         if (user.getDirectorId() != null && user.getMovieId() != null)
             menu.getItem(2).setEnabled(true);

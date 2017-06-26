@@ -43,7 +43,7 @@ import tads.ufpr.br.oscarapp.model.User;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MAIN_ACTIVITY";
-    private static String url = "http://192.168.1.3:8080/login";
+    private static String url = "http://192.168.25.237:8080/login";
     private EditText emailTxt;
     private EditText passwordTxt;
     User user_login = new User();
