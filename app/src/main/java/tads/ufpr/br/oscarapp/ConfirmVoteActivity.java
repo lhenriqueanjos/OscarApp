@@ -1,7 +1,9 @@
 package tads.ufpr.br.oscarapp;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -43,8 +45,10 @@ public class ConfirmVoteActivity extends AppCompatActivity {
     int movieId;
     private List<Director> directors;
     private List<Movie> movies;
+    private AlertDialog alerta;
 
     private static String url = "http://192.168.25.237:8080/vote";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,13 +56,13 @@ public class ConfirmVoteActivity extends AppCompatActivity {
         Intent intent = getIntent();
 //        director = (Director) intent.getSerializableExtra("director");
 //        movie = (Movie) intent.getSerializableExtra("movie");
-        user = (User)intent.getSerializableExtra("user");
+        user = (User) intent.getSerializableExtra("user");
         directors = (List<Director>) intent.getSerializableExtra("directors");
         movies = (List<Movie>) intent.getSerializableExtra("movies");
         dirId = (int) (long) user.getDirectorId();
-        dirId = dirId -1 ;
+        dirId = dirId - 1;
         movieId = (int) (long) user.getMovieId();
-        movieId = movieId -1;
+        movieId = movieId - 1;
         director = directors.get(dirId);
         movie = movies.get(movieId);
         directorName = (TextView) findViewById(R.id.textViewDirectorName);
@@ -68,13 +72,13 @@ public class ConfirmVoteActivity extends AppCompatActivity {
 
     }
 
-    public void onClickConfirm(View view){
+    public void onClickConfirm(View view) {
         Map<String, String> voteMap = new HashMap<>();
         voteMap.put("email", user.getEmail());
         voteMap.put("movieId", user.getMovieId().toString());
         voteMap.put("directorId", user.getDirectorId().toString());
         RequestQueue queue = Volley.newRequestQueue(ConfirmVoteActivity.this);
-        JsonObjectRequest req = new JsonObjectRequest(Request.Method.PUT,url, new JSONObject(voteMap),
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.PUT, url, new JSONObject(voteMap),
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -100,11 +104,26 @@ public class ConfirmVoteActivity extends AppCompatActivity {
             @Override
             public void onRequestFinished(Request<String> request) {
 
-                    Toast.makeText(ConfirmVoteActivity.this, "Voto computado com sucesso!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ConfirmVoteActivity.this, "Voto computado com sucesso!", Toast.LENGTH_SHORT).show();
 
-                    Intent intent = new Intent(getBaseContext(), ShortcutsActivity.class);
-                    intent.putExtra("userVote", (Serializable) user);
-                    startActivity(intent);
+                //Cria o gerador do AlertDialog
+                AlertDialog.Builder builder = new AlertDialog.Builder(ConfirmVoteActivity.this);
+                //define o titulo
+                builder.setTitle("Sucesso");
+                //define a mensagem
+                builder.setMessage("Seu voto foi computado");
+                //define um botão como positivo
+                builder.setPositiveButton("Entendi", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        Intent intent = new Intent(getBaseContext(), ShortcutsActivity.class);
+                        intent.putExtra("userVote", (Serializable) user);
+                        startActivity(intent);
+                    }
+                });
+                //cria o AlertDialog
+                alerta = builder.create();
+                //Exibe
+                alerta.show();
             }
         });
     }
