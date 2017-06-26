@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
                             {
                                 loginOK = "1";
                                 long id = 0;
-                                user_login.setUserName(response.getString("name"));
+                                user_login.setUserName(response.getString("user"));
                                 user_login.setDirectorId(response.getLong("directorId"));
                                 user_login.setMovieId(response.getLong("movieId"));
                                 if (user_login.getMovieId() == null)

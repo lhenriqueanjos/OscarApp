@@ -44,7 +44,7 @@ public class ConfirmVoteActivity extends AppCompatActivity {
     private List<Director> directors;
     private List<Movie> movies;
 
-    private static String url = "http://192.168.1.3:8080/vote";
+    private static String url = "http://192.168.25.237:8080/vote";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
