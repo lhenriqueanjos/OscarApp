@@ -21,6 +21,9 @@
         <activity android:name=".ShortcutsActivity" />
         <activity android:name=".MoviesActivity" />
         <activity android:name=".DirectorsActivity"></activity>
+        <activity android:name=".MovieDetailActivity"></activity>
+        <activity android:name=".DirectorDetailActivity"></activity>
+        <activity android:name=".ConfirmVoteActivity"></activity>
     </application>
 
 </manifest>

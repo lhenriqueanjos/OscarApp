@@ -18,11 +18,10 @@
         android:visibility="invisible">
 
         <TextView
-            android:id="@+id/noVoteTxt"
+            android:id="@+id/VoteTxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="Você ainda não votou"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
     </LinearLayout>
 

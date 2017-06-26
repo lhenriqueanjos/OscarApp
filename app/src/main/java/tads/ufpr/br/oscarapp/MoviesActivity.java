@@ -6,11 +6,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.List;
 
 import tads.ufpr.br.oscarapp.model.Movie;
+import tads.ufpr.br.oscarapp.model.User;
 
 import static android.widget.Toast.makeText;
 
@@ -18,6 +19,7 @@ public class MoviesActivity extends AppCompatActivity {
 
     private ListView listView;
     private List<Movie> movies;
+    User user;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,7 @@ public class MoviesActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         movies = (List<Movie>) intent.getSerializableExtra("movies");
+        user = (User) intent.getSerializableExtra("user");
 
         listView = (ListView) findViewById(R.id.moviesListView);
         listView.setAdapter(new MovieArrayAdapter(this, R.layout.movies_list, movies));
@@ -36,7 +39,11 @@ public class MoviesActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //get selected items
                 Movie selectedValue = (Movie) listView.getAdapter().getItem(i);
-                Toast.makeText(view.getContext(), selectedValue.getName(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getBaseContext(), MovieDetailActivity.class);
+                intent.putExtra("movie", (Serializable) selectedValue);
+                intent.putExtra("user", (Serializable) user);
+                startActivity(intent);
+//                Toast.makeText(view.getContext(), selectedValue.getName(), Toast.LENGTH_SHORT).show();
             }
         });
     }

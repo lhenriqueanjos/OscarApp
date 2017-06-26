@@ -8,15 +8,18 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.List;
 
 import tads.ufpr.br.oscarapp.model.Director;
 import tads.ufpr.br.oscarapp.model.Movie;
+import tads.ufpr.br.oscarapp.model.User;
 
 public class DirectorsActivity extends AppCompatActivity {
 
     private ListView listView;
     private List<Director> directors;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +28,7 @@ public class DirectorsActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         directors = (List<Director>) intent.getSerializableExtra("directors");
+        user = (User) intent.getSerializableExtra("user");
 
         listView = (ListView) findViewById(R.id.directorsListView);
         listView.setAdapter(new DirectorArrayAdapter(this, R.layout.directors_list, directors));
@@ -34,7 +38,11 @@ public class DirectorsActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //get selected items
                 Director selectedValue = (Director) listView.getAdapter().getItem(i);
-                Toast.makeText(view.getContext(), selectedValue.getName(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getBaseContext(), DirectorDetailActivity.class);
+                intent.putExtra("director", (Serializable) selectedValue);
+                intent.putExtra("user", (Serializable) user);
+                startActivity(intent);
+
             }
         });
     }
